@@ -745,6 +745,326 @@ html, body {
   margin-left: auto;
   font-size: 11px;
 }
-@media (max-width: 900px) {
+/* ---- Responsive: tablet / laptop ---- */
+@media (max-width: 1200px) {
+  .main {
+    grid-template-columns: 260px minmax(0, 1fr) 300px;
+    gap: 14px;
+    padding: 14px 14px 12px 4px;
+  }
+  .main.focus-mode {
+    grid-template-columns: 0 minmax(0, 1fr) 320px;
+  }
+  .sidebar { width: 64px; }
+  .brand-sub { display: none; }
+  .topbar { gap: 12px; padding: 10px 16px 8px; }
+  .topbar::after { left: 16px; }
+}
+
+/* ---- Responsive: tablet portrait / small laptop ---- */
+@media (max-width: 980px) {
+  .demo-banner {
+    padding: 8px 14px;
+    gap: 8px;
+  }
   .demo-banner-hint { margin-left: 0; width: 100%; }
+
+  .main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 12px 20px;
+    gap: 14px;
+  }
+  .main.focus-mode,
+  .main.focus-mode.chat-hidden,
+  .main.chat-hidden {
+    grid-template-columns: 1fr;
+  }
+  /* On stacked layout, focus still hides left cards; chat-hidden still hides assistant */
+  .main.focus-mode .col-left {
+    display: none;
+  }
+  .main.focus-mode .secondary-card,
+  .main.focus-mode .projects-card { display: none; }
+  .main.focus-mode .assistant-panel { flex: none; max-height: none; min-height: 50vh; }
+  .main.chat-hidden .col-right {
+    display: none;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .col-center { order: 1; }
+  .col-right { order: 2; min-height: 420px; }
+  .col-left { order: 3; overflow-y: visible; }
+
+  .sidebar {
+    width: auto;
+    flex-direction: row;
+    padding: 8px 10px;
+    border-right: none;
+    border-bottom: 1px solid var(--line-dim);
+    justify-content: center;
+    gap: 10px;
+  }
+  .body { flex-direction: column; }
+  .side-rail {
+    flex-direction: row;
+    border-radius: 16px;
+    padding: 6px 8px;
+  }
+  .side-spacer { display: none; }
+  .side-note { align-self: center; }
+
+  .orb-stage {
+    width: min(100%, 420px);
+    max-width: 100%;
+  }
+  .corner-tl { top: 0; left: 0; }
+  .corner-tr { top: 0; right: 0; }
+  .corner-bl { bottom: 4%; left: 0; }
+  .corner-br { bottom: 4%; right: 0; }
+
+  .digest-modal-box,
+  .agenda-modal,
+  .project-modal-box,
+  .palette {
+    width: min(480px, calc(100vw - 24px));
+  }
+}
+
+/* ---- Responsive: phone (~390px and below) ---- */
+@media (max-width: 640px) {
+  html, body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+    min-height: 100%;
+    min-height: 100dvh;
+  }
+  .app {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .demo-banner {
+    padding: 8px 12px;
+    font-size: 11px;
+    gap: 6px 10px;
+  }
+  .demo-banner-text { flex: 1 1 180px; line-height: 1.35; }
+  .demo-banner-hint { font-size: 10.5px; line-height: 1.35; }
+
+  .topbar {
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    padding: 10px 12px 10px;
+    row-gap: 8px;
+  }
+  .topbar::after { left: 12px; width: 80px; }
+  .brand { gap: 8px; min-width: 0; }
+  .brand-reticle { width: 28px; height: 28px; flex-shrink: 0; }
+  .brand-name { font-size: 13px; letter-spacing: 2.5px; }
+  .brand-badge { font-size: 8px; padding: 2px 5px; }
+  .brand-text { flex-wrap: wrap; gap: 4px 6px; }
+  .status-pill {
+    padding: 6px 10px;
+    min-height: 36px;
+    font-size: 10px;
+  }
+  .topbar-spacer { display: none; }
+  .topbar-clock {
+    width: 100%;
+    order: 5;
+    justify-content: space-between;
+    padding-top: 2px;
+    border-top: 1px solid var(--line-dim);
+    gap: 8px;
+  }
+  .topbar-time { font-size: 13px; letter-spacing: 2px; }
+  .topbar-date { font-size: 10.5px; letter-spacing: 1.5px; }
+  .topbar-icons { margin-left: auto; gap: 8px; }
+  .ticon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+  }
+  .ticon svg { width: 18px; height: 18px; }
+
+  .sidebar {
+    padding: 6px 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .side-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+  }
+  .side-icon svg { width: 20px; height: 20px; }
+
+  .main {
+    padding: 10px 10px 28px;
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .col { gap: 12px; width: 100%; max-width: 100%; }
+  .col-right { min-height: 360px; }
+  .assistant-panel {
+    min-height: 380px;
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .hud-card { --notch: 10px; }
+  .hud-card-inner { padding: 13px 12px 12px; }
+
+  .card-action {
+    width: 40px; height: 40px;
+  }
+  .card-action svg { width: 17px; height: 17px; }
+  .card-title { font-size: 10.5px; letter-spacing: 2px; }
+  .brief-greeting { font-size: 14.5px; }
+
+  .orb-stage {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+  /* Hide corner HUDs on small phones — too cramped / overflow risk */
+  .corner { display: none; }
+  .orb-title {
+    font-size: clamp(18px, 6vw, 26px);
+    letter-spacing: 5px;
+    margin-left: 5px;
+  }
+  .orb-status { font-size: 12px; }
+
+  .listen-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    max-width: 100%;
+    padding: 8px 12px;
+    gap: 6px;
+    font-size: 11px;
+  }
+  .listen-bar #listen-label { flex: 1 1 160px; line-height: 1.35; }
+
+  .control-strip {
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  .chevrons { display: none; }
+  .ctrl-inner {
+    width: 88px; height: 68px;
+    font-size: 9px;
+  }
+  .ctrl-btn {
+    /* enlarge hit area without changing visual much */
+    touch-action: manipulation;
+  }
+  .v2-hint {
+    text-align: center;
+    padding: 0 8px;
+    line-height: 1.4;
+  }
+
+  .suggest-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .suggest-btn {
+    min-height: 44px;
+    padding: 10px 10px;
+    font-size: 11px;
+  }
+  .chat-input-row {
+    padding: 4px 4px 4px 10px;
+    gap: 4px;
+  }
+  #chat-input {
+    font-size: 16px; /* avoid iOS zoom on focus */
+    min-width: 0;
+    padding: 10px 0;
+  }
+  .mic-btn, .send-btn {
+    width: 44px; height: 44px;
+    flex-shrink: 0;
+  }
+  .mic-btn svg { width: 18px; height: 18px; }
+  .head-icon {
+    width: 40px; height: 40px;
+  }
+  .head-icon svg { width: 18px; height: 18px; }
+
+  .projects-list .project-edit-btn {
+    opacity: 1; /* always visible on touch */
+    width: 36px; height: 36px;
+  }
+
+  .env-details {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+  .env-details > div { min-width: 28%; }
+
+  .digest-entry-outlooks { grid-template-columns: 1fr; }
+
+  .palette-overlay {
+    padding: 12px;
+    padding-top: max(12px, env(safe-area-inset-top));
+    align-items: flex-start;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .palette,
+  .digest-modal-box,
+  .agenda-modal,
+  .project-modal-box {
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - 24px);
+    margin: 0;
+  }
+  .agenda-modal-row {
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+  .agenda-modal-row .agenda-time { min-width: 64px; }
+
+  .toast-box {
+    top: auto;
+    bottom: 16px;
+    left: 12px;
+    right: 12px;
+    transform: none;
+    width: auto;
+  }
+  .toast {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .project-modal-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .project-modal-cancel,
+  .project-modal-save,
+  .project-modal-delete {
+    min-height: 44px;
+    padding: 10px 16px;
+  }
+}
+
+/* Extra-narrow phones */
+@media (max-width: 380px) {
+  .suggest-grid { grid-template-columns: 1fr; }
+  .ctrl-inner { width: 78px; height: 64px; }
+  .brand-badge { display: none; }
+  .status-pill #status-label { letter-spacing: 1px; }
 }
