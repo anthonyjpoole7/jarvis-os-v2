@@ -12,6 +12,13 @@
 
 Also see [`DISTINCTION.md`](./DISTINCTION.md) for a short sibling-project checklist.
 
+## Live demo (GitHub Pages)
+
+**Public UI preview:** [https://anthonyjpoole7.github.io/jarvis-os-v2/](https://anthonyjpoole7.github.io/jarvis-os-v2/)
+
+Static snapshot under `docs/` — cyan/steel dashboard with offline stubs (no localhost backends required). Chat, voice, and health are demo-only.
+
+
 ## Purpose
 
 - **Original (`~/jarvis`)**: production personal OS — LaunchAgents, Swift menubar window, EventKit calendar, native speech. Hotkey **⌥⌘D**.
@@ -84,4 +91,4 @@ It does **not** replace the original LaunchAgents, copy `.env`, or modify `~/jar
 
 ## Git
 
-Optional local repo. Secrets are gitignored. Do not push a remote unless you ask to.
+Remote: `anthonyjpoole7/jarvis-os-v2`. Secrets stay gitignored. GitHub Pages serves `docs/` from `main`.

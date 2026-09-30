@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>JARVIS OS v2 — Public Demo</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <div class="demo-banner" role="status" aria-live="polite">
+      <span class="demo-banner-pill">DEMO</span>
+      <span class="demo-banner-text">Demo — not connected to live Jarvis. Local services offline.</span>
+      <span class="demo-banner-hint">Chat replies are canned · health/weather/digest are sample data</span>
+    </div>
+
+    <header class="topbar">
+      <div class="brand">
+        <svg class="brand-reticle" viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="19" fill="none" stroke="currentColor" stroke-width="1" opacity="0.7"/>
+          <circle cx="22" cy="22" r="13" fill="none" stroke="currentColor" stroke-width="0.75" stroke-dasharray="3 4" opacity="0.5"/>
+          <circle class="brand-core" cx="22" cy="22" r="4.5" fill="currentColor"/>
+          <path d="M22 1v6M22 37v6M1 22h6M37 22h6" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-name">JARVIS OS</span>
+          <span class="brand-badge">PUBLIC DEMO</span>
+        </div>
+        <span class="brand-sub">Static demo · no live backends</span>
+      </div>
+      <div class="status-pill" id="status-pill" title="Click to refresh service health">
+        <span class="dot dot-green" id="status-dot"></span><span id="status-label">CHECKING</span>
+      </div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-clock">
+        <span class="topbar-time" id="clock-time">--:--:-- --</span>
+        <span class="topbar-sep">|</span>
+        <span class="topbar-date" id="clock-date">-</span>
+      </div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-icons">
+        <button class="ticon" id="focus-toggle" title="Focus / Compact layout">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+        </button>
+        <button class="ticon" id="assistant-toggle" title="Show assistant panel">
+          <svg viewBox="0 0 24 24"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="body">
+      <nav class="sidebar">
+        <div class="side-rail">
+          <button class="side-icon active" title="Dashboard" data-nav="dash">
+            <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect x="13.5" y="13.5" width="7" height="7" rx="1"/></svg>
+          </button>
+          <button class="side-icon" id="side-focus" title="Focus mode">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+          </button>
+          <button class="side-icon muted" title="Not in v2 yet" disabled>
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg>
+          </button>
+        </div>
+        <div class="side-spacer"></div>
+        <div class="side-note">v2</div>
+      </nav>
+
+      <main class="main" id="main">
+        <section class="col col-left" id="col-left">
+          <div class="hud-card health-card" id="health-card">
+            <div class="hud-card-inner">
+              <div class="card-head">
+                <span class="card-title">SERVICE HEALTH</span>
+                <button class="card-action" id="health-refresh" title="Refresh">
+                  <svg viewBox="0 0 24 24"><path d="M20 8a8.1 8.1 0 0 0-15.5 2M4 16a8.1 8.1 0 0 0 15.5-2"/><path d="M20 3v5h-5M4 21v-5h5"/></svg>
+                </button>
+              </div>
+              <ul class="health-list" id="health-list">
+                <li data-svc="n8n"><span class="health-dot"></span><span class="health-name">n8n</span><span class="health-port">:5678</span><span class="health-state">…</span></li>
+                <li data-svc="kokoro"><span class="health-dot"></span><span class="health-name">Kokoro TTS</span><span class="health-port">:8765</span><span class="health-state">…</span></li>
+                <li data-svc="relay"><span class="health-dot"></span><span class="health-name">Voice relay</span><span class="health-port">:8766</span><span class="health-state">…</span></li>
+              </ul>
+              <div class="brief-sub" id="health-note">Demo mode · services shown as offline</div>
+            </div>
+          </div>
+
+          <div class="hud-card secondary-card">
+            <div class="hud-card-inner">
+              <div class="card-head">
+                <span class="card-title">DAILY BRIEF</span>
+                <button class="card-action" id="brief-refresh" title="Refresh">
+                  <svg viewBox="0 0 24 24"><path d="M20 8a8.1 8.1 0 0 0-15.5 2M4 16a8.1 8.1 0 0 0 15.5-2"/><path d="M20 3v5h-5M4 21v-5h5"/></svg>
+                </button>
+              </div>
+              <div class="brief-greeting" id="greeting">Good afternoon, Anthony.</div>
+              <div class="brief-sub" id="brief-sub">Loading today's events…</div>
+              <ul class="agenda" id="agenda-list"></ul>
+              <button class="card-link" id="agenda-link">View full agenda <span class="arrow">→</span></button>
+            </div>
+          </div>
+
+          <div class="hud-card secondary-card">
+            <div class="hud-card-inner">
+              <div class="card-head">
+                <span class="card-title">DEVICE STATUS</span>
+                <span class="card-action static">
+                  <svg viewBox="0 0 24 24"><path d="M2 12h4l2-6 4 12 2-6h8"/></svg>
+                </span>
+              </div>
+              <div class="stat-row"><span>CPU</span><span id="stat-cpu">--%</span></div>
+              <div class="bar"><div class="bar-fill" id="bar-cpu"></div></div>
+              <div class="stat-row"><span>RAM</span><span id="stat-ram">--%</span></div>
+              <div class="bar"><div class="bar-fill" id="bar-ram"></div></div>
+              <div class="stat-row"><span>Uptime</span><span id="stat-uptime">--</span></div>
+            </div>
+          </div>
+
+          <div class="hud-card secondary-card">
+            <div class="hud-card-inner">
+              <div class="card-head">
+                <span class="card-title">ENVIRONMENT</span>
+                <button class="card-action" id="env-refresh" title="Refresh">
+                  <svg viewBox="0 0 24 24"><path d="M20 8a8.1 8.1 0 0 0-15.5 2M4 16a8.1 8.1 0 0 0 15.5-2"/><path d="M20 3v5h-5M4 21v-5h5"/></svg>
+                </button>
+              </div>
+              <div class="env-main">
+                <svg class="env-icon" viewBox="0 0 24 24"><path d="M6.5 18a4.5 4.5 0 0 1-.4-9A6 6 0 0 1 17.8 10 4 4 0 0 1 17 18z"/></svg>
+                <div>
+                  <div class="env-temp" id="env-temp">-- °F</div>
+                  <div class="env-loc" id="env-loc">--</div>
+                  <div class="env-cond" id="env-cond">--</div>
+                </div>
+              </div>
+              <div class="env-details">
+                <div><span class="env-k">Humidity</span><span class="env-v" id="env-humidity">--%</span></div>
+                <div><span class="env-k">Wind</span><span class="env-v" id="env-wind">-- mph</span></div>
+                <div><span class="env-k">Feels Like</span><span class="env-v" id="env-feels">-- °F</span></div>
+              </div>
+            </div>
+          </div>
+
+          <button class="hud-card digest-card secondary-card" id="digest-card" type="button">
+            <div class="hud-card-inner">
+              <div class="card-head">
+                <span class="card-title">MARKET DIGEST</span>
+                <span class="card-action static">
+                  <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+                </span>
+              </div>
+              <div class="brief-sub" id="digest-sub">Loading…</div>
+              <div class="digest-tickers" id="digest-tickers"></div>
+              <div class="card-link">View full breakdown <span class="arrow">→</span></div>
+            </div>
+          </button>
+        </section>
+
+        <section class="col col-center">
+          <div class="orb-stage" id="orb-stage">
+            <div class="orb-glow"></div>
+            <canvas id="orb-canvas"></canvas>
+
+            <div class="corner corner-tl">
+              <div class="hud-mini">
+                <div class="corner-label">SYSTEM LOAD</div>
+                <div class="corner-value"><span id="orb-cpu">--</span><span class="corner-unit">%</span></div>
+                <div class="corner-sub">CPU Usage</div>
+                <canvas class="spark" id="spark-cpu" width="96" height="22"></canvas>
+              </div>
+            </div>
+            <div class="corner corner-tr">
+              <div class="hud-mini">
+                <div class="corner-label">MEMORY</div>
+                <div class="corner-value"><span id="orb-ram">--</span><span class="corner-unit">GB</span></div>
+                <div class="corner-sub" id="orb-ram-total">of -- GB</div>
+                <canvas class="spark" id="spark-ram" width="96" height="22"></canvas>
+              </div>
+            </div>
+            <div class="corner corner-bl">
+              <div class="hud-mini">
+                <div class="corner-label">CONVERSATION</div>
+                <div class="corner-value"><span id="orb-turns">--</span></div>
+                <div class="corner-sub">Exchanges remembered</div>
+                <canvas class="spark" id="spark-turns" width="96" height="22"></canvas>
+              </div>
+            </div>
+            <div class="corner corner-br">
+              <div class="hud-mini">
+                <div class="corner-label">UPTIME</div>
+                <div class="corner-value corner-value-sm" id="orb-uptime">--:--:--</div>
+                <div class="corner-sub">System Uptime</div>
+                <canvas class="spark" id="spark-uptime" width="96" height="22"></canvas>
+              </div>
+            </div>
+
+            <div class="orb-center">
+              <div class="orb-title">OS v2</div>
+              <div class="orb-status" id="orb-status">Ready</div>
+              <canvas id="wave-center" width="170" height="26"></canvas>
+            </div>
+          </div>
+
+          <div class="listen-bar" id="listen-bar">
+            <span class="dot dot-green"></span>
+            <span id="listen-label">Public demo · typed chat uses canned replies</span>
+            <canvas id="listen-wave" width="64" height="14"></canvas>
+          </div>
+
+          <div class="control-strip">
+            <svg class="chevrons chevrons-l" viewBox="0 0 90 40">
+              <path d="M34 4 16 20l18 16h10L26 20 44 4z"/>
+              <path d="M18 4 0 20l18 16h8L8 20 26 4z" opacity="0.45"/>
+            </svg>
+            <button class="ctrl-btn" id="btn-voice" title="Voice needs native bridge (live app)">
+              <span class="ctrl-frame"><span class="ctrl-inner">
+                <svg viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5v4M9 21.5h6"/></svg>
+                <span>VOICE</span>
+              </span></span>
+            </button>
+            <button class="ctrl-btn" id="btn-commands" title="Quick commands (press /)">
+              <span class="ctrl-frame"><span class="ctrl-inner">
+                <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect x="13.5" y="13.5" width="7" height="7" rx="1"/></svg>
+                <span>COMMANDS</span>
+              </span></span>
+            </button>
+            <button class="ctrl-btn" id="btn-focus-ctrl" title="Toggle focus layout">
+              <span class="ctrl-frame"><span class="ctrl-inner">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+                <span>FOCUS</span>
+              </span></span>
+            </button>
+            <svg class="chevrons chevrons-r" viewBox="0 0 90 40">
+              <path d="M56 4l18 16-18 16H46l18-16L46 4z"/>
+              <path d="M72 4l18 16-18 16h-8l18-16L64 4z" opacity="0.45"/>
+            </svg>
+          </div>
+          <div class="v2-hint">CAMERA &amp; page dots removed · not in v2 yet</div>
+        </section>
+
+        <section class="col col-right" id="col-right">
+          <div class="hud-card projects-card secondary-card">
+            <div class="hud-card-inner">
+              <div class="card-head">
+                <span class="card-title">AI PROJECTS</span>
+                <div class="card-head-actions">
+                  <button class="card-action" id="projects-add" title="Add project">
+                    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                  </button>
+                  <button class="card-action" id="projects-refresh" title="Refresh">
+                    <svg viewBox="0 0 24 24"><path d="M20 8a8.1 8.1 0 0 0-15.5 2M4 16a8.1 8.1 0 0 0 15.5-2"/><path d="M20 3v5h-5M4 21v-5h5"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="brief-sub" id="projects-sub">Just tell Jarvis about a project idea and it'll show up here.</div>
+              <ul class="projects-list" id="projects-list"></ul>
+            </div>
+          </div>
+
+          <div class="assistant-panel">
+            <div class="assistant-head">
+              <span class="card-title">ASSISTANT</span>
+              <div class="assistant-head-icons">
+                <button class="head-icon" id="voice-toggle" title="Spoken replies: on">
+                  <svg viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z"/><path class="vt-waves" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.8a7.5 7.5 0 0 1 0 10.4"/></svg>
+                </button>
+                <button class="head-icon" id="panel-close" title="Hide assistant panel">
+                  <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="chat-log" id="chat-log"></div>
+            <div class="suggested">
+              <div class="card-title small">SUGGESTED ACTIONS</div>
+              <div class="suggest-grid">
+                <button class="suggest-btn" data-prompt="Summarize what we've talked about so far.">
+                  <svg viewBox="0 0 24 24"><path d="M5 6h14M5 12h14M5 18h8"/></svg><span>Summarize</span>
+                </button>
+                <button class="suggest-btn" data-prompt="What's today's date?">
+                  <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4"/></svg><span>Today's Date</span>
+                </button>
+                <button class="suggest-btn" data-prompt="What can you currently do, and what can't you do yet?">
+                  <svg viewBox="0 0 24 24"><path d="M12 3l2.1 5.4L20 10l-5.4 2.1L12 18l-2.1-5.9L4 10l5.9-1.6z"/></svg><span>Capabilities</span>
+                </button>
+                <button class="suggest-btn" data-prompt="What is this demo?">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c-5.5 5-5.5 12 0 17 5.5-5 5.5-12 0-17z"/></svg><span>About Demo</span>
+                </button>
+              </div>
+            </div>
+            <form class="chat-input-row" id="chat-form">
+              <input id="chat-input" type="text" placeholder="Ask anything or give a command..." autocomplete="off" />
+              <button type="button" class="mic-btn" id="mic-btn" title="Voice input (native only)">
+                <svg viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5v4"/></svg>
+              </button>
+              <button type="submit" class="send-btn" title="Send">↑</button>
+            </form>
+            <div class="chat-hint">Press <kbd>/</kbd> for commands · this is a static GitHub Pages demo</div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-box" id="toast-box"></div>
+
+  <div class="palette-overlay" id="palette" hidden>
+    <div class="palette">
+      <div class="palette-head">
+        <span class="card-title">QUICK COMMANDS</span>
+        <span class="palette-esc">esc to close</span>
+      </div>
+      <div class="palette-list" id="palette-list"></div>
+    </div>
+  </div>
+
+  <div class="palette-overlay" id="full-agenda" hidden>
+    <div class="palette agenda-modal">
+      <div class="palette-head">
+        <span class="card-title">FULL AGENDA — NEXT 7 DAYS</span>
+        <span class="palette-esc">esc to close</span>
+      </div>
+      <div class="agenda-modal-list" id="full-agenda-list"></div>
+    </div>
+  </div>
+
+  <div class="palette-overlay" id="project-modal" hidden>
+    <div class="palette project-modal-box">
+      <div class="palette-head">
+        <span class="card-title" id="project-modal-title">ADD PROJECT</span>
+        <span class="palette-esc">esc to close</span>
+      </div>
+      <div class="project-modal-body">
+        <label class="project-modal-label" for="project-modal-title-input">Title</label>
+        <input type="text" id="project-modal-title-input" class="project-modal-input" placeholder="Project title" maxlength="120" />
+        <label class="project-modal-label" for="project-modal-desc-input">Description (optional)</label>
+        <textarea id="project-modal-desc-input" class="project-modal-textarea" placeholder="Brief description" maxlength="400"></textarea>
+        <div class="project-modal-error" id="project-modal-error" hidden></div>
+      </div>
+      <div class="project-modal-actions">
+        <button class="project-modal-delete" id="project-modal-delete" hidden>Delete</button>
+        <div class="project-modal-actions-right">
+          <button class="project-modal-cancel" id="project-modal-cancel" type="button">Cancel</button>
+          <button class="project-modal-save" id="project-modal-save" type="button">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="palette-overlay" id="digest-modal" hidden>
+    <div class="palette digest-modal-box">
+      <div class="palette-head">
+        <span class="card-title" id="digest-modal-title">MARKET DIGEST</span>
+        <span class="palette-esc">esc to close</span>
+      </div>
+      <div class="digest-modal-list" id="digest-modal-list"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
