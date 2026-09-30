@@ -24,3 +24,7 @@ data/
 logs/
 *.log
 conversation.json
+
+# Built app bundles (never commit)
+*.app
+**/*.app/

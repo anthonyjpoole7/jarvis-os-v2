@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.jarvis.os.v2.menubar</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/anthonyjpoole/Code/agents/jarvis-os-v2/menubar-app/JarvisOSv2MenuBar.app/Contents/MacOS/JarvisOSv2MenuBar</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/anthonyjpoole/Code/agents/jarvis-os-v2</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/anthonyjpoole/Code/agents/jarvis-os-v2/logs/menubar.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/anthonyjpoole/Code/agents/jarvis-os-v2/logs/menubar-error.log</string>
+</dict>
+</plist>

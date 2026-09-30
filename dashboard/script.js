@@ -14,7 +14,7 @@ function bridge() {
 function nativeCall(payload) {
   const b = bridge();
   if (!b) {
-    toast("Native-only feature — use the live app (⌥⌘D), not this v2 browser preview.");
+    toast("Native-only feature — open Jarvis OS v2 with ⌥⌘S (not the browser preview).");
     return false;
   }
   b.postMessage(payload);
